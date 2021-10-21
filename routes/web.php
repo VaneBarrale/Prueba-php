@@ -28,3 +28,14 @@ Route::get('/empleado/create', [Empleado::class, 'create']); */
 /*Si quisiera una ruta para todos los metodos de la clase, puedo hacerlo asi, por eso comento lo de arriba*/
 
 Route::resource('empleado', EmpleadoController::class);
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

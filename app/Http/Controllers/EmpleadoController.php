@@ -52,7 +52,8 @@ class EmpleadoController extends Controller
 
         //Inserto en la base todo lo que recibo
         Empleado::insert($datosEmpleado);
-        return response()->json($datosEmpleado); //Responde y muestra en formato json lo que se envio desde el formulario.
+        return redirect('empleado')->with('mensaje', 'Empleado agregado con exito');
+        //return response()->json($datosEmpleado); //Responde y muestra en formato json lo que se envio desde el formulario.
     }
 
     /**
@@ -118,6 +119,6 @@ class EmpleadoController extends Controller
         if(Storage::delete('public/'.$empleado->Foto)){
             Empleado::destroy($id);
         }
-        return redirect('empleado');
+        return redirect('empleado')->with('mensaje', 'Empleado borrado');
     }
 }

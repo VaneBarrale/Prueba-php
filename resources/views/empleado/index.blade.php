@@ -1,5 +1,11 @@
 Mostrar la lista de empleados 
 <br>
+
+@if(Session::has('mensaje'))
+{{Session::get('mensaje') }}
+@endif
+<br>
+
 <a href=" {{ url ('/empleado/create') }}"> Registrar nuevo empleado</a>
 <table class="table table-light">
     
