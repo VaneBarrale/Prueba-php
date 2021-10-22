@@ -7,7 +7,10 @@
 @endif
 <br>
 
-    <a href=" {{ url ('/empleado/create') }}"> Registrar nuevo empleado</a>
+    <a href=" {{ url ('/empleado/create') }}" class="btn btn-success"> Registrar nuevo empleado</a>
+    <br>
+    <br>
+
     <table class="table table-light">
         
         <thead class="thead-light">
@@ -32,7 +35,7 @@
                 {{--Accedo a la carpeta donde estan las fotos, que es storage. Para eso uso la palabra reservada asset
                     con $empleado.Foto me busca la foto de ese empleado
                     Para que funcione tengo que ejecutar php artisan storage:link--}}
-                <img src="{{ asset('storage').'/'.$empleado->Foto}}" width="100" alt="">
+                <img class="img-thumbnail img-fluid" src="{{ asset('storage').'/'.$empleado->Foto}}" width="100" alt="">
 
                 </td>
                 <td>{{ $empleado->Nombre }}</td>
@@ -40,17 +43,17 @@
                 <td>{{ $empleado->ApellidoMaterno }}</td>
                 <td>{{ $empleado->Correo }}</td>
                 <td>
-                    <a href="{{ url('/empleado/'.$empleado->id.'/edit') }}">
+                    <a href="{{ url('/empleado/'.$empleado->id.'/edit') }}" class="btn btn-warning">
                     Editar
                 </a>
                 
                 | 
                     
                 {{--En .$empleado->id le estoy pasando el id del empleado que tengo seleccionado para borrar--}}
-                    <form action="{{ url('/empleado/'.$empleado->id) }}" method="post">
+                    <form action="{{ url('/empleado/'.$empleado->id) }}" class="d-inline" method="post">
                         @csrf
                         {{ method_field('DELETE') }} {{--Convierto el metodo post en delete --}}
-                        <input type="submit" onclick="return confirm('Quieres borrar?')" 
+                        <input class="btn btn-danger" type="submit" onclick="return confirm('Quieres borrar?')" 
                         value="Borrar">
 
                     </form>

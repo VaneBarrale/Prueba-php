@@ -27,8 +27,8 @@ Route::get('/empleado/create', [Empleado::class, 'create']); */
 
 /*Si quisiera una ruta para todos los metodos de la clase, puedo hacerlo asi, por eso comento lo de arriba*/
 
-Route::resource('empleado', EmpleadoController::class);
-Auth::routes();
+Route::resource('empleado', EmpleadoController::class)->middleware('auth'); //->middleware('auth') se asegura de que esté logueada, sino me saca al loguin y no me deja entrar a la URL directo
+Auth::routes(['register'=>false, 'reset'=>false]); //con esto le digo que cuando estoy en la pagina de loguin no me muestre register y reset
 
 Route::get('/home', [EmpleadoController::class, 'index'])->name('home');
 
