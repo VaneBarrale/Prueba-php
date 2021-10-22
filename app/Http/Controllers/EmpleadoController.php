@@ -40,6 +40,23 @@ class EmpleadoController extends Controller
      */
     public function store(Request $request)
     {
+
+        //defino los campos que voy a validar
+        $campos=[
+            'Nombre'=>'required|string|max:100', //es requerido, de tipo string de maximo 100 caracteres
+            'ApellidoPaterno'=>'required|string|max:100',
+            'ApellidoMaterno'=>'required|string|max:100',
+            'Correo'=>'required|email',
+            'Foto'=>'required|max:1000|mimes:jpeg,png,jpg'
+        ];
+
+        $mensaje=[
+            'required'=>'El :attribute es requerido',
+            'Foto.required'=>'La foto es requerida'
+        ];
+
+        $this->validate($request, $campos, $mensaje);
+
         //$datosEmpleado = $request->all(); //Obtiene todos los datos de los empleados del formulario
         //Como no quiero recibir el token, lo exceptuo porque no lo tengo en la BD
         $datosEmpleado = $request->except('_token');
@@ -52,7 +69,8 @@ class EmpleadoController extends Controller
 
         //Inserto en la base todo lo que recibo
         Empleado::insert($datosEmpleado);
-        return response()->json($datosEmpleado); //Responde y muestra en formato json lo que se envio desde el formulario.
+        return redirect('empleado')->with('mensaje', 'Empleado agregado con exito');
+        //return response()->json($datosEmpleado); //Responde y muestra en formato json lo que se envio desde el formulario.
     }
 
     /**
@@ -88,6 +106,27 @@ class EmpleadoController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $campos=[
+            'Nombre'=>'required|string|max:100', //es requerido, de tipo string de maximo 100 caracteres
+            'ApellidoPaterno'=>'required|string|max:100',
+            'ApellidoMaterno'=>'required|string|max:100',
+            'Correo'=>'required|email'
+        ];
+
+        $mensaje=[
+            'required'=>'El :attribute es requerido',
+            'Foto.required'=>'La foto es requerida'
+        ];
+
+        if($request->hasFile('Foto')){
+            $campos=['Foto'=>'required|max:1000|mimes:jpeg,png,jpg'];
+            $mensaje=['Foto.required'=>'La foto es requerida'];
+
+        }
+
+        $this->validate($request, $campos, $mensaje);
+
+
         //recibo todos los datos del request menos el token y el metodo patch
         $datosEmpleado = $request->except(['_token', '_method']);
         //si actualizo la foto, borro del storage la vieja para que no ocupe lugar al pedo y dsp la reemplazo
@@ -102,7 +141,8 @@ class EmpleadoController extends Controller
 
         //redirecciono al formulario de ese ID con los datos actualizados
         $empleado = Empleado::findOrFail($id); //findOrFail busca los datos de ese id o por el parametro que busquemos
-        return view('empleado.edit', compact('empleado') );
+        //return view('empleado.edit', compact('empleado') );
+        return redirect('empleado')->with('mensaje', 'Empleado modificado');
     }
 
     /**
@@ -118,6 +158,6 @@ class EmpleadoController extends Controller
         if(Storage::delete('public/'.$empleado->Foto)){
             Empleado::destroy($id);
         }
-        return redirect('empleado');
+        return redirect('empleado')->with('mensaje', 'Empleado borrado');
     }
 }
