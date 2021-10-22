@@ -2,10 +2,15 @@
 @section('content')
 <div class="container">
 
-@if(Session::has('mensaje'))
-{{Session::get('mensaje') }}
-@endif
-<br>
+    @if(Session::has('mensaje'))
+    <div class="alert alert-success alert-dismissible" role="alert">
+    {{Session::get('mensaje') }}
+    <button class="close" type="button" data-dismiss="alert" aria-label="Close">
+            <span arian-hidden="true">&times;</span>
+        </button>
+
+    </div>
+    @endif
 
     <a href=" {{ url ('/empleado/create') }}" class="btn btn-success"> Registrar nuevo empleado</a>
     <br>
@@ -64,6 +69,8 @@
         </tbody>
 
     </table>
+    
+    {!! $empleados->links() !!}
     
 </div>
 @endsection
